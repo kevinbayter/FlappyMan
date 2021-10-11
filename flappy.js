@@ -74,20 +74,21 @@ function Barreiras(altura, largura, abertura, espaco, notificarPonto) {
   };
 }
 
-function Passaro(alturaJogo) {
-  let voando = false;
+function Pajaro(alturaJogo) {
+  let volando = false;
 
   this.elemento = novoElemento("img", "passaro");
-  this.elemento.src = "img/passaro.png";
+  this.elemento.src = "img/passar0.png";
 
   this.getY = () => parseInt(this.elemento.style.bottom.split("px")[0]);
   this.setY = (y) => (this.elemento.style.bottom = `${y}px`);
-
-  window.onkeydown = (e) => (voando = true);
-  window.onkeyup = (e) => (voando = false);
+  let onkey = window.onkeydown = (e) => (volando = true);
+  let up = window.onkeyup = (e) => (volando = false);
+  window.onmousedown = (e) => (onkey())
+  window.onmouseup = (e) => (up());
 
   this.animar = () => {
-    const novoY = this.getY() + (voando ? 8 : -5);
+    const novoY = this.getY() + (volando ? 8 : -5);
     const alturaMaxima = alturaJogo - this.elemento.clientHeight;
 
     if (novoY <= 0) {
@@ -111,7 +112,7 @@ function Progresso() {
 }
 
 // const barreiras = new Barreiras(700, 1200, 200, 400)
-// const passaro = new Passaro(700)
+// const passaro = new Pajaro(700)
 // const areaDoJogo = document.querySelector('[wm-flappy]')
 // areaDoJogo.appendChild(passaro.elemento)
 // areaDoJogo.appendChild(new Progresso().elemento)
@@ -152,10 +153,10 @@ function FlappyBird() {
   const largura = areaDoJogo.clientWidth;
 
   const progresso = new Progresso();
-  const barreiras = new Barreiras(altura, largura, 200, 400, () =>
+  const barreiras = new Barreiras(altura, largura, 205, 550, () =>
     progresso.atualizarPontos(++pontos)
   );
-  const passaro = new Passaro(altura);
+  const passaro = new Pajaro(altura);
 
   areaDoJogo.appendChild(progresso.elemento);
   areaDoJogo.appendChild(passaro.elemento);
